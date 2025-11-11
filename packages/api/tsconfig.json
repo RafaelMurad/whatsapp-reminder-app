@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    // Node.js environment
+    "lib": ["ES2022"],                        // Server-side only
+    "types": ["node"],                        // Node.js globals
+    
+    // Output configuration
+    "outDir": "./dist",
+    "rootDir": "./src",
+    
+    // Module settings
+    "composite": true,                        // Enable project references
+    "incremental": true                       // Faster rebuilds
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}

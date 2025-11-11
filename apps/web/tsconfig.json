@@ -1,0 +1,23 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    // SolidJS specific
+    "jsx": "preserve",                        // SolidJS handles JSX compilation
+    "jsxImportSource": "solid-js",           // Use Solid's JSX runtime
+    
+    // Browser environment
+    "lib": ["ES2022", "DOM", "DOM.Iterable"], // Add browser APIs
+    
+    // Module resolution
+    "types": ["vite/client"],                 // Vite type definitions
+    "isolatedModules": true,                  // Each file can be transpiled independently
+    
+    // Paths (import aliases)
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./src/*"]                      // Import as ~/components/Button
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
