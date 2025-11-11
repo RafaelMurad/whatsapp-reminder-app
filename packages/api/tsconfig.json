@@ -11,8 +11,17 @@
     
     // Module settings
     "composite": true,                        // Enable project references
-    "incremental": true                       // Faster rebuilds
+    "incremental": true,                      // Faster rebuilds
+    // Path mapping for workspace imports
+    "baseUrl": "../../",
+    "paths": {
+      "@repo/db": ["packages/db/src/index.ts"],
+      "@repo/api": ["packages/api/src/index.ts"]
+    }
   },
+  "references": [
+    { "path": "../db" }
+  ],
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }
