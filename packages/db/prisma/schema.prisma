@@ -1,0 +1,41 @@
+// Prisma Schema - Database Structure
+// Learn more: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// User model - People who use the app
+model User {
+  id          String     @id @default(cuid())
+  email       String     @unique
+  password    String     // Will be hashed with bcrypt
+  phoneNumber String     // For WhatsApp notifications (e.g., "+1234567890")
+  createdAt   DateTime   @default(now())
+  
+  // Relationships
+  reminders   Reminder[] // One user can have many reminders
+}
+
+// Reminder model - Things users want to be reminded about
+model Reminder {
+  id           String   @id @default(cuid())
+  userId       String   // Foreign key to User
+  title        String   // Short description (e.g., "Take medicine")
+  message      String   // Full reminder text
+  scheduledFor DateTime // When to send the WhatsApp message
+  sent         Boolean  @default(false) // Track if already sent
+  createdAt    DateTime @default(now())
+  
+  // Relationships
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Indexes for query performance
+  @@index([userId])              // Fast lookup of user's reminders
+  @@index([scheduledFor, sent])  // Fast lookup of unsent due reminders
+}
