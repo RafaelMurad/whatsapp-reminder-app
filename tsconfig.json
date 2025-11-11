@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    // Type Checking
+    "strict": true,                           // Enable all strict type checks
+    "noUncheckedIndexedAccess": true,        // Safer array/object access
+    "noUnusedLocals": true,                  // Error on unused variables
+    "noUnusedParameters": true,              // Error on unused function params
+    
+    // Modules
+    "module": "ESNext",                       // Modern ES modules
+    "moduleResolution": "bundler",            // Modern resolution (Vite/Vinxi)
+    "resolveJsonModule": true,                // Allow importing .json files
+    
+    // Emit
+    "declaration": true,                      // Generate .d.ts files
+    "declarationMap": true,                   // Source maps for .d.ts
+    "sourceMap": true,                        // Generate source maps
+    
+    // Interop
+    "esModuleInterop": true,                  // Better CommonJS/ESM interop
+    "allowSyntheticDefaultImports": true,     // Allow default imports
+    "forceConsistentCasingInFileNames": true, // Case-sensitive imports
+    
+    // Language
+    "target": "ES2022",                       // Modern JavaScript features
+    "lib": ["ES2022"],                        // Available global APIs
+    
+    // Skip type checking of declaration files (faster builds)
+    "skipLibCheck": true
+  }
+}

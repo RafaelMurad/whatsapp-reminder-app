@@ -1,1 +1,42 @@
-node_modules
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Environment variables
+.env
+.env*.local
+
+# Build outputs
+dist/
+.output/
+.vinxi/
+.vercel/
+.netlify/
+
+# Database
+*.db
+*.db-journal
+packages/db/prisma/migrations/
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Testing
+coverage/
+
+# Misc
+.turbo/
