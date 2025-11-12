@@ -1,6 +1,52 @@
+import 'dotenv/config';
 import cron from 'node-cron';
-import { prisma } from '@repo/db';
-import { sendWhatsAppReminder, formatReminderMessage } from '@repo/api/services/whatsapp';
+import { PrismaClient } from '@prisma/client';
+import twilio from 'twilio';
+
+// Initialize Prisma
+const prisma = new PrismaClient({
+  log: ['query', 'error', 'warn'],
+});
+
+// Initialize Twilio
+const twilioClient = twilio(
+  process.env.TWILIO_ACCOUNT_SID!,
+  process.env.TWILIO_AUTH_TOKEN!
+);
+
+// Helper functions
+async function sendWhatsAppReminder(to: string, message: string): Promise<string> {
+  const fromNumber = process.env.TWILIO_WHATSAPP_NUMBER!;
+  
+  console.log(`[WhatsApp] Attempting to send message:`);
+  console.log(`  From: whatsapp:${fromNumber}`);
+  console.log(`  To: whatsapp:${to}`);
+  console.log(`  Body: ${message.substring(0, 50)}...`);
+  
+  try {
+    const result = await twilioClient.messages.create({
+      from: `whatsapp:${fromNumber}`,
+      to: `whatsapp:${to}`,
+      body: message,
+    });
+
+    console.log(`[WhatsApp] ✅ SUCCESS! Message sent, SID: ${result.sid}`);
+    console.log(`[WhatsApp] Status: ${result.status}`);
+    console.log(`[WhatsApp] Error code: ${result.errorCode || 'none'}`);
+    console.log(`[WhatsApp] Error message: ${result.errorMessage || 'none'}`);
+    return result.sid;
+  } catch (error: any) {
+    console.error(`[WhatsApp] ❌ FAILED to send message to ${to}`);
+    console.error(`[WhatsApp] Error:`, error);
+    console.error(`[WhatsApp] Error message:`, error.message);
+    console.error(`[WhatsApp] Error code:`, error.code);
+    throw new Error(`WhatsApp send failed: ${error.message}`);
+  }
+}
+
+function formatReminderMessage(title: string, message: string): string {
+  return `🔔 *Reminder: ${title}*\n\n${message}`;
+}
 
 /**
  * Background worker that sends due reminders via WhatsApp

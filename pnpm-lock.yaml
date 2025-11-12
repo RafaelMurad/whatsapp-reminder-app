@@ -60,15 +60,24 @@ importers:
 
   apps/worker:
     dependencies:
+      '@prisma/client':
+        specifier: ^5.22.0
+        version: 5.22.0(prisma@5.22.0)
       '@repo/api':
         specifier: workspace:*
         version: link:../../packages/api
       '@repo/db':
         specifier: workspace:*
         version: link:../../packages/db
+      dotenv:
+        specifier: ^16.3.1
+        version: 16.6.1
       node-cron:
         specifier: ^3.0.3
         version: 3.0.3
+      twilio:
+        specifier: ^4.23.0
+        version: 4.23.0
     devDependencies:
       '@types/node':
         specifier: ^20.10.0
@@ -1667,6 +1676,10 @@ packages:
   dot-prop@10.1.0:
     resolution: {integrity: sha512-MVUtAugQMOff5RnBy2d9N31iG0lNwg1qAoAOn7pOK5wf94WIaE3My2p3uwTQuvS2AcqchkcR3bHByjaM0mmi7Q==}
     engines: {node: '>=20'}
+
+  dotenv@16.6.1:
+    resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
+    engines: {node: '>=12'}
 
   dotenv@17.2.3:
     resolution: {integrity: sha512-JVUnt+DUIzu87TABbhPmNfVdBDt18BLOWjMUFJMSi/Qqg7NTYtabbvSNJGOJ7afbRuv9D/lngizHtP7QyLQ+9w==}
@@ -4578,6 +4591,8 @@ snapshots:
   dot-prop@10.1.0:
     dependencies:
       type-fest: 5.2.0
+
+  dotenv@16.6.1: {}
 
   dotenv@17.2.3: {}
 
