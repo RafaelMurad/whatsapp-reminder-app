@@ -45,13 +45,19 @@ function decodeUser(token: string | null): AuthUser | null {
 }
 
 // Factory to create context for each request
-export async function createContext(opts: { headers: Headers | Record<string, string | string[] | undefined> }) {
+export async function createContext(opts: { headers: Headers }) {
+  console.log('[CONTEXT] Creating tRPC context...');
   const token = getTokenFromHeader(opts.headers);
+  console.log('[CONTEXT] Token from header:', token ? 'present' : 'missing');
+  
   const user = decodeUser(token);
-  return {
-    prisma,
-    user, // null if unauthenticated
-  };
+  if (user) {
+    console.log('[CONTEXT] Authenticated user:', user.id);
+  } else {
+    console.log('[CONTEXT] No authenticated user');
+  }
+
+  return { prisma, user };
 }
 
 export type Context = inferAsyncReturnType<typeof createContext>;
