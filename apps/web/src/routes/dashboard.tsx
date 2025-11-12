@@ -79,6 +79,14 @@ export default function Dashboard() {
     }
   };
 
+  const setQuickReminder = (minutes: number) => {
+    const now = new Date();
+    now.setMinutes(now.getMinutes() + minutes);
+    // Format for datetime-local input: YYYY-MM-DDTHH:MM
+    const formatted = now.toISOString().slice(0, 16);
+    setFormData((prev) => ({ ...prev, scheduledFor: formatted }));
+  };
+
   const handleDeleteReminder = async (id: string) => {
     try {
       await trpc.reminder.delete.mutate({ id });
@@ -162,6 +170,39 @@ export default function Dashboard() {
                     <label for="scheduledFor" class="block text-sm font-medium text-gray-700">
                       Scheduled For
                     </label>
+                    
+                    {/* Quick preset buttons */}
+                    <div class="mt-1 mb-2 flex gap-2 flex-wrap">
+                      <button
+                        type="button"
+                        onClick={() => setQuickReminder(1)}
+                        class="px-3 py-1 text-xs font-medium rounded-md text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200"
+                      >
+                        +1 min
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setQuickReminder(5)}
+                        class="px-3 py-1 text-xs font-medium rounded-md text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200"
+                      >
+                        +5 min
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setQuickReminder(15)}
+                        class="px-3 py-1 text-xs font-medium rounded-md text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200"
+                      >
+                        +15 min
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setQuickReminder(60)}
+                        class="px-3 py-1 text-xs font-medium rounded-md text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200"
+                      >
+                        +1 hour
+                      </button>
+                    </div>
+                    
                     <input
                       id="scheduledFor"
                       type="datetime-local"
