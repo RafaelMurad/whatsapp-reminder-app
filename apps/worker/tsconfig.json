@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES2022"],
+    "types": ["node"],
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "composite": true,
+    "incremental": true,
+    "baseUrl": "../../",
+    "paths": {
+      "@repo/db": ["packages/db/src/index.ts"],
+      "@repo/api": ["packages/api/src/index.ts"]
+    }
+  },
+  "references": [
+    { "path": "../db" },
+    { "path": "../api" }
+  ],
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
