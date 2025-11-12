@@ -16,7 +16,12 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]                      // Import as ~/components/Button
-    }
+    },
+    "composite": true,
+    "incremental": true,
+    // Redirect build output to dist instead of polluting src with transpiled JS
+    "outDir": "./dist",
+    "rootDir": "./src"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

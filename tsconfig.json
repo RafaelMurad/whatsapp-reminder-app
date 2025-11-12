@@ -28,5 +28,10 @@
     
     // Skip type checking of declaration files (faster builds)
     "skipLibCheck": true
-  }
+  },
+  "references": [
+    { "path": "apps/web" },
+    { "path": "packages/db" },
+    { "path": "packages/api" }
+  ]
 }
