@@ -1,0 +1,6 @@
+{
+	"dependencies": {
+		"drizzle-orm": "^0.44.7",
+		"@libsql/client": "^0.15.15"
+	}
+}
