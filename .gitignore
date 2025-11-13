@@ -27,7 +27,11 @@ apps/web/src/**/*.jsx
 # Database
 *.db
 *.db-journal
+*.db-shm
+*.db-wal
 packages/db/prisma/migrations/
+packages/db/drizzle/
+packages/db/data/
 
 # Logs
 *.log

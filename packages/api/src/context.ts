@@ -1,10 +1,11 @@
 import type { inferAsyncReturnType } from '@trpc/server';
-import { prisma } from '@repo/db';
+import { db } from '@repo/db';
 import jwt from 'jsonwebtoken';
 
 // Shape of the user we attach to context (minimal for now)
 export interface AuthUser {
-  id: string;
+  userId: string;
+  email: string;
 }
 
 // Extract bearer token from Authorization header
@@ -25,7 +26,7 @@ function getTokenFromHeader(headers: Headers | Record<string, string | string[] 
   return token || null;
 }
 
-// Verify & decode JWT returning the user id or null
+// Verify & decode JWT returning the user or null
 function decodeUser(token: string | null): AuthUser | null {
   if (!token) return null;
   const secret = process.env.JWT_SECRET;
@@ -35,9 +36,9 @@ function decodeUser(token: string | null): AuthUser | null {
     return null;
   }
   try {
-    const payload = jwt.verify(token, secret) as { userId?: string; iat?: number; exp?: number };
-    if (!payload.userId) return null;
-    return { id: payload.userId };
+    const payload = jwt.verify(token, secret) as { userId?: string; email?: string; iat?: number; exp?: number };
+    if (!payload.userId || !payload.email) return null;
+    return { userId: payload.userId, email: payload.email };
   } catch {
     // Expired / malformed tokens just yield unauthenticated context
     return null;
@@ -49,7 +50,7 @@ export async function createContext(opts: { headers: Headers | Record<string, st
   const token = getTokenFromHeader(opts.headers);
   const user = decodeUser(token);
   return {
-    prisma,
+    db,
     user, // null if unauthenticated
   };
 }

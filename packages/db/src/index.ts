@@ -1,19 +1,15 @@
-import { PrismaClient } from '@prisma/client'
+// Drizzle ORM Database Client with libSQL
+import { drizzle } from 'drizzle-orm/libsql'
+import { createClient } from '@libsql/client'
+import * as schema from './schema'
 
-// Create a single instance of PrismaClient
-// This prevents creating multiple connections in development (hot reload)
-const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClient | undefined
-}
-
-export const prisma = globalForPrisma.prisma ?? new PrismaClient({
-  log: ['query', 'error', 'warn'], // Log SQL queries in development
+// Create or connect to SQLite database using libSQL (pure JavaScript, no native binaries)
+const client = createClient({
+  url: 'file:./packages/db/data/dev.db',
 })
 
-// In development, save the instance to prevent hot-reload issues
-if (process.env.NODE_ENV !== 'production') {
-  globalForPrisma.prisma = prisma
-}
+// Create Drizzle instance
+export const db = drizzle(client, { schema })
 
-// Export Prisma types for use in other packages
-export * from '@prisma/client'
+// Re-export schema and types
+export * from './schema'

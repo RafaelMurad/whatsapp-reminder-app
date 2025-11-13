@@ -14,11 +14,11 @@ export async function verifyPassword(password: string, hash: string): Promise<bo
   return bcrypt.compare(password, hash);
 }
 
-// Sign a JWT containing the userId
-export function signJwt(userId: string): string {
+// Sign a JWT containing the userId and email
+export function signJwt(payload: { userId: string; email: string }): string {
   const secret = process.env.JWT_SECRET;
   if (!secret) throw new Error('Missing JWT_SECRET environment variable');
-  return jwt.sign({ userId }, secret, { expiresIn: JWT_EXPIRY });
+  return jwt.sign(payload, secret, { expiresIn: JWT_EXPIRY });
 }
 
 // Verify and decode a JWT; returns userId or null

@@ -4,15 +4,15 @@
     // Node.js environment
     "lib": ["ES2022"],                        // Server-side only (no DOM)
     "types": ["node"],                        // Node.js type definitions
-    
+
     // Output configuration
     "outDir": "./dist",                       // Compiled JS goes here
     "rootDir": "./src",                       // Source files location
-    
+
     // Module settings
     "composite": true,                        // Enable project references
     "incremental": true                       // Faster rebuilds
   },
-  "include": ["src/**/*", "prisma/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "drizzle"]
 }

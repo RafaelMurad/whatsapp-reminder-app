@@ -6,15 +6,16 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
+    "@repo/db": "workspace:*",
     "@trpc/server": "^10.45.0",
-    "zod": "^3.22.4",
-    "jsonwebtoken": "^9.0.2",
     "bcrypt": "^5.1.1",
+    "drizzle-orm": "^0.44.7",
+    "jsonwebtoken": "^9.0.2",
     "twilio": "^4.20.0",
-    "@repo/db": "workspace:*"
+    "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@types/jsonwebtoken": "^9.0.5",
-    "@types/bcrypt": "^5.0.2"
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.5"
   }
 }
