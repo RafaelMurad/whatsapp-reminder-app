@@ -8,7 +8,9 @@
   "dependencies": {
     "@repo/db": "workspace:*",
     "@trpc/server": "^10.45.0",
+    "@types/bcryptjs": "^3.0.0",
     "bcrypt": "^5.1.1",
+    "bcryptjs": "^3.0.3",
     "drizzle-orm": "^0.44.7",
     "jsonwebtoken": "^9.0.2",
     "twilio": "^4.23.0",
