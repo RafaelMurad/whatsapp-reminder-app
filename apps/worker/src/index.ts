@@ -107,6 +107,7 @@ async function processReminders() {
 // Run every minute: '* * * * *'
 // Format: minute hour day month weekday
 console.log('[Worker] Starting reminder worker...');
+console.log('[Worker] DATABASE_URL:', process.env.DATABASE_URL || '(missing)');
 console.log('[Worker] Cron schedule: Every minute');
 
 // Run immediately on startup (for testing)

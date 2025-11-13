@@ -7,7 +7,7 @@ const globalForPrisma = globalThis as unknown as {
 }
 
 export const prisma = globalForPrisma.prisma ?? new PrismaClient({
-  log: ['query', 'error', 'warn'], // Log SQL queries in development
+  log: ['query', 'error', 'warn'],
 })
 
 // In development, save the instance to prevent hot-reload issues

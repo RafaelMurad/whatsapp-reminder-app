@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "pnpm --filter web dev",
+    "dev": "pnpm --filter db migrate && pnpm --filter db generate && pnpm --filter worker dev & pnpm --filter web dev",
+    "dev:web": "pnpm --filter web dev",
+    "dev:worker": "pnpm --filter worker dev",
+    "dev:studio": "pnpm --filter db studio & pnpm --filter worker dev & pnpm --filter web dev",
     "build": "pnpm --filter web build",
     "worker": "pnpm --filter worker dev",
     "db:studio": "pnpm --filter db studio",
