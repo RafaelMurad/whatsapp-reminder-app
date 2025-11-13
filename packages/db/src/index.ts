@@ -5,7 +5,7 @@ import * as schema from './schema'
 
 // Create or connect to SQLite database using libSQL (pure JavaScript, no native binaries)
 const client = createClient({
-  url: 'file:./packages/db/data/dev.db',
+  url: process.env.DATABASE_URL || 'file:./packages/db/data/dev.db',
 })
 
 // Create Drizzle instance

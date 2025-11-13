@@ -5,6 +5,6 @@ export default {
   out: './drizzle',
   dialect: 'turso',
   dbCredentials: {
-    url: 'file:./data/dev.db',
+    url: process.env.DATABASE_URL || 'file:./data/dev.db',
   },
 } satisfies Config
