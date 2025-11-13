@@ -5,8 +5,30 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![SolidJS](https://img.shields.io/badge/SolidJS-1.8-2c4f7c?logo=solid)](https://www.solidjs.com/)
 [![tRPC](https://img.shields.io/badge/tRPC-10.45-398ccb)](https://trpc.io/)
-[![Prisma](https://img.shields.io/badge/Prisma-5.7-2D3748?logo=prisma)](https://www.prisma.io/)
+[![Drizzle](https://img.shields.io/badge/Drizzle-0.44-C5F74F)](https://orm.drizzle.team/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+---
+
+## 🚀 Quick Start (3 commands)
+
+```bash
+# 1. Clone and install
+git clone <your-repo-url>
+cd whatsapp-reminder-app
+pnpm install
+
+# 2. Setup database and env
+pnpm db:push
+
+# 3. Start development
+pnpm dev
+```
+
+**That's it!** App runs at `http://localhost:3000`
+
+> **First time?** If you don't have `.env`, copy `.env.example` to `.env` first.
+> **OR** run the automated setup: `./setup.sh`
 
 ---
 
@@ -26,13 +48,27 @@ A portfolio project built to showcase full-stack TypeScript development, focusin
 
 ## ✨ Features
 
-### MVP (Current Sprint)
+### Backend (✅ Complete)
 - [x] Monorepo setup with pnpm workspaces
-- [ ] User authentication (register/login/logout)
-- [ ] Create and manage reminders
+- [x] Type-safe database with Drizzle ORM
+- [x] tRPC API with full type safety
+- [x] JWT authentication with bcrypt
+- [x] User registration and login endpoints
+- [x] Full CRUD operations for reminders
+- [x] Protected routes with auth middleware
+
+### Frontend (🚧 In Progress)
+- [ ] Authentication UI (login/register pages)
+- [ ] Dashboard with reminder list
+- [ ] Create/edit reminder forms
+- [ ] WhatsApp number verification
+- [ ] Responsive design
+
+### Deployment (📋 Planned)
 - [ ] WhatsApp notifications via Twilio
-- [ ] Responsive dashboard UI
-- [ ] Production deployment
+- [ ] Background job scheduler
+- [ ] Production deployment on Vercel
+- [ ] Database deployment on Turso
 
 ### Future Enhancements
 - AI-generated reminder messages (OpenAI)
@@ -52,7 +88,7 @@ A portfolio project built to showcase full-stack TypeScript development, focusin
 
 ### Backend
 - **[tRPC](https://trpc.io/)** - End-to-end type-safe APIs (no code generation!)
-- **[Prisma](https://www.prisma.io/)** - Type-safe ORM
+- **[Drizzle ORM](https://orm.drizzle.team/)** - Lightweight, type-safe ORM
 - **[Zod](https://zod.dev/)** - Runtime validation & TypeScript types
 
 ### Infrastructure
