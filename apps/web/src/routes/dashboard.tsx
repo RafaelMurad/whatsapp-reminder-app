@@ -1,6 +1,6 @@
 import { createSignal, createEffect, For, Show } from 'solid-js';
 import { useNavigate } from '@solidjs/router';
-import { trpc, clearAuthToken } from '../lib/trpc';
+import { trpc } from '../lib/trpc';
 
 interface Reminder {
   id: string;
@@ -28,7 +28,7 @@ export default function Dashboard() {
   // Auth guard: fetch current user on mount
   createEffect(async () => {
     try {
-      const currentUser = await trpc.auth.getMe.query();
+      const currentUser = await trpc.auth.me.query();
       setUser(currentUser);
     } catch {
       navigate('/login');
@@ -41,8 +41,8 @@ export default function Dashboard() {
   createEffect(async () => {
     if (user()) {
       try {
-        const data = await trpc.reminder.getAll.query();
-        setReminders(data.reminders);
+        const data = await trpc.reminder.list.query();
+        setReminders(data);
       } catch (_err) {
         console.error('Failed to fetch reminders:', _err);
       }
@@ -65,8 +65,8 @@ export default function Dashboard() {
         scheduledFor: new Date(formData().scheduledFor).toISOString(),
       });
 
-      const updated = await trpc.reminder.getAll.query();
-      setReminders(updated.reminders);
+      const updated = await trpc.reminder.list.query();
+      setReminders(updated);
       setFormData({ title: '', message: '', scheduledFor: '' });
     } catch (err: any) {
       setError(err.message || 'Failed to create reminder');
@@ -85,58 +85,42 @@ export default function Dashboard() {
   const handleDeleteReminder = async (id: string) => {
     try {
       await trpc.reminder.delete.mutate({ id });
-      const updated = await trpc.reminder.getAll.query();
-      setReminders(updated.reminders);
+      const updated = await trpc.reminder.list.query();
+      setReminders(updated);
     } catch (err: any) {
       console.error('Failed to delete reminder:', err);
     }
   };
 
-  const handleLogout = () => {
-    clearAuthToken();
-    navigate('/login');
-  };
-
   return (
-    <Show when={!isLoading()} fallback={<div class="text-center py-12">Loading...</div>}>
-      <div class="min-h-screen bg-gray-50">
-        <div class="bg-white shadow">
-          <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <div>
-              <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
-              <p class="mt-1 text-sm text-gray-500">Welcome, {user()?.email}</p>
-            </div>
-            <button
-              onClick={handleLogout}
-              class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700"
-            >
-              Logout
-            </button>
+    <Show when={!isLoading()} fallback={<div class="text-center py-12 text-white">Loading...</div>}>
+      <div class="min-h-[calc(100vh-4rem)]">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+          <div class="mb-8">
+            <h1 class="text-4xl font-bold text-white">Dashboard</h1>
+            <p class="mt-2 text-lg text-white/80">Welcome, {user()?.email}</p>
           </div>
-        </div>
-
-        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
           <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
             <div class="md:col-span-1">
-              <div class="bg-white overflow-hidden shadow rounded-lg p-6">
-                <h2 class="text-lg font-medium text-gray-900 mb-4">Create Reminder</h2>
+              <div class="bg-white/10 backdrop-blur-md overflow-hidden shadow-xl rounded-lg p-6 border border-white/20">
+                <h2 class="text-xl font-semibold text-white mb-6">Create Reminder</h2>
 
                 {error() && (
-                  <div class="mb-4 rounded-md bg-red-50 p-4">
-                    <p class="text-sm font-medium text-red-800">{error()}</p>
+                  <div class="mb-4 rounded-lg bg-red-500/20 border border-red-500/50 p-4">
+                    <p class="text-sm font-medium text-red-100">{error()}</p>
                   </div>
                 )}
 
                 <form onSubmit={handleCreateReminder} class="space-y-4">
                   <div>
-                    <label for="title" class="block text-sm font-medium text-gray-700">
+                    <label for="title" class="block text-sm font-medium text-white mb-2">
                       Title
                     </label>
                     <input
                       id="title"
                       type="text"
                       required
-                      class="mt-1 appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                      class="w-full rounded-lg bg-white/10 text-white border border-white/30 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-white/50 placeholder-white/50"
                       placeholder="Reminder title"
                       value={formData().title}
                       onInput={(e) => handleInputChange('title', e.currentTarget.value)}
@@ -144,13 +128,13 @@ export default function Dashboard() {
                   </div>
 
                   <div>
-                    <label for="message" class="block text-sm font-medium text-gray-700">
+                    <label for="message" class="block text-sm font-medium text-white mb-2">
                       Message
                     </label>
                     <textarea
                       id="message"
                       required
-                      class="mt-1 appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                      class="w-full rounded-lg bg-white/10 text-white border border-white/30 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-white/50 placeholder-white/50"
                       placeholder="Message content"
                       rows={3}
                       value={formData().message}
@@ -159,36 +143,36 @@ export default function Dashboard() {
                   </div>
 
                   <div>
-                    <label for="scheduledFor" class="block text-sm font-medium text-gray-700">
+                    <label for="scheduledFor" class="block text-sm font-medium text-white mb-2">
                       Scheduled For
                     </label>
                     
-                    <div class="mt-1 mb-2 flex gap-2 flex-wrap">
+                    <div class="mb-3 flex gap-2 flex-wrap">
                       <button
                         type="button"
                         onClick={() => setQuickReminder(1)}
-                        class="px-3 py-1 text-xs font-medium rounded-md text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200"
+                        class="px-3 py-1 text-xs font-medium rounded-md text-white bg-white/20 hover:bg-white/30 border border-white/30"
                       >
                         +1 min
                       </button>
                       <button
                         type="button"
                         onClick={() => setQuickReminder(5)}
-                        class="px-3 py-1 text-xs font-medium rounded-md text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200"
+                        class="px-3 py-1 text-xs font-medium rounded-md text-white bg-white/20 hover:bg-white/30 border border-white/30"
                       >
                         +5 min
                       </button>
                       <button
                         type="button"
                         onClick={() => setQuickReminder(15)}
-                        class="px-3 py-1 text-xs font-medium rounded-md text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200"
+                        class="px-3 py-1 text-xs font-medium rounded-md text-white bg-white/20 hover:bg-white/30 border border-white/30"
                       >
                         +15 min
                       </button>
                       <button
                         type="button"
                         onClick={() => setQuickReminder(60)}
-                        class="px-3 py-1 text-xs font-medium rounded-md text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200"
+                        class="px-3 py-1 text-xs font-medium rounded-md text-white bg-white/20 hover:bg-white/30 border border-white/30"
                       >
                         +1 hour
                       </button>
@@ -198,7 +182,7 @@ export default function Dashboard() {
                       id="scheduledFor"
                       type="datetime-local"
                       required
-                      class="mt-1 appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                      class="w-full rounded-lg bg-white/10 text-white border border-white/30 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-white/50"
                       value={formData().scheduledFor}
                       onInput={(e) => handleInputChange('scheduledFor', e.currentTarget.value)}
                     />
@@ -207,7 +191,7 @@ export default function Dashboard() {
                   <button
                     type="submit"
                     disabled={isCreating()}
-                    class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+                    class="w-full rounded-lg bg-white text-blue-600 hover:bg-blue-50 disabled:opacity-50 px-4 py-3 font-semibold transition-colors shadow-lg"
                   >
                     {isCreating() ? 'Creating...' : 'Create Reminder'}
                   </button>
@@ -216,9 +200,9 @@ export default function Dashboard() {
             </div>
 
             <div class="md:col-span-2">
-              <div class="bg-white overflow-hidden shadow rounded-lg">
-                <div class="px-6 py-4 border-b border-gray-200">
-                  <h2 class="text-lg font-medium text-gray-900">
+              <div class="bg-white/10 backdrop-blur-md overflow-hidden shadow-xl rounded-lg border border-white/20">
+                <div class="px-6 py-4 border-b border-white/20">
+                  <h2 class="text-xl font-semibold text-white">
                     Reminders ({reminders().length})
                   </h2>
                 </div>
@@ -227,27 +211,27 @@ export default function Dashboard() {
                   when={reminders().length > 0}
                   fallback={
                     <div class="px-6 py-12 text-center">
-                      <p class="text-gray-500">No reminders yet. Create one to get started!</p>
+                      <p class="text-white/70">No reminders yet. Create one to get started!</p>
                     </div>
                   }
                 >
-                  <div class="divide-y divide-gray-200">
+                  <div class="divide-y divide-white/10">
                     <For each={reminders()}>
                       {(reminder) => (
-                        <div class="px-6 py-4 hover:bg-gray-50">
+                        <div class="px-6 py-4 hover:bg-white/5 transition">
                           <div class="flex justify-between items-start">
                             <div class="flex-1">
-                              <h3 class="text-sm font-medium text-gray-900">{reminder.title}</h3>
-                              <p class="mt-1 text-sm text-gray-600">{reminder.message}</p>
-                              <div class="mt-2 flex items-center space-x-4 text-xs text-gray-500">
+                              <h3 class="text-base font-semibold text-white">{reminder.title}</h3>
+                              <p class="mt-1 text-sm text-white/80">{reminder.message}</p>
+                              <div class="mt-2 flex items-center space-x-4 text-xs text-white/60">
                                 <span>
                                   Scheduled: {new Date(reminder.scheduledFor).toLocaleString()}
                                 </span>
                                 <span
                                   class={`px-2 py-1 rounded ${
                                     reminder.sent
-                                      ? 'bg-green-100 text-green-800'
-                                      : 'bg-yellow-100 text-yellow-800'
+                                      ? 'bg-green-500/30 text-green-100 border border-green-500/50'
+                                      : 'bg-yellow-500/30 text-yellow-100 border border-yellow-500/50'
                                   }`}
                                 >
                                   {reminder.sent ? 'Sent' : 'Pending'}
@@ -256,7 +240,7 @@ export default function Dashboard() {
                             </div>
                             <button
                               onClick={() => handleDeleteReminder(reminder.id)}
-                              class="ml-2 inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded text-white bg-red-600 hover:bg-red-700"
+                              class="ml-2 inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-lg text-white bg-red-500/80 hover:bg-red-600 border border-red-500/50 transition"
                             >
                               Delete
                             </button>

@@ -20,14 +20,15 @@ echo ""
 
 # Test register
 echo "📝 Testing REGISTER..."
-REGISTER_RESULT=$(curl -s -X POST http://localhost:3000/api/trpc/auth.register \
+TEST_EMAIL="test$(date +%s)@example.com"
+REGISTER_RESULT=$(curl -s -X POST "http://localhost:3000/api/trpc/auth.register" \
   -H "Content-Type: application/json" \
-  -d "{\"email\":\"test$(date +%s)@example.com\",\"password\":\"password123\",\"phoneNumber\":\"+1234567890\"}")
+  -d "{\"email\":\"$TEST_EMAIL\",\"password\":\"password123\",\"phoneNumber\":\"+1234567890\"}")
 
 if echo "$REGISTER_RESULT" | grep -q "token"; then
   echo "✅ Register works!"
   TOKEN=$(echo "$REGISTER_RESULT" | grep -o '"token":"[^"]*' | cut -d'"' -f4)
-  EMAIL=$(echo "$REGISTER_RESULT" | grep -o '"email":"[^"]*' | cut -d'"' -f4)
+  EMAIL="$TEST_EMAIL"
 else
   echo "❌ Register failed"
   echo "Response: $REGISTER_RESULT"

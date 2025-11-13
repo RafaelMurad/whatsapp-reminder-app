@@ -2,7 +2,8 @@ import { defineConfig } from '@solidjs/start/config'
 
 export default defineConfig({
   server: {
-    preset: 'node-server',
+    preset: 'vercel',
+    compatibilityDate: '2025-11-13',
   },
   vite: {
     ssr: {
