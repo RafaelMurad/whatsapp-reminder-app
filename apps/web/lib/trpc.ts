@@ -4,17 +4,20 @@ import { createTRPCReact } from "@trpc/react-query";
 
 export const trpc = createTRPCReact<AppRouter>();
 
-export const createTRPCClient = () => {
+function getBaseUrl() {
+  if (typeof window !== "undefined") return "";
+  return `http://localhost:${process.env.PORT ?? 3000}`;
+}
+
+export function getTRPCClient() {
   return trpc.createClient({
     links: [
       httpBatchLink({
-        url: "http://localhost:3000/api/trpc",
+        url: `${getBaseUrl()}/api/trpc`,
         headers() {
-          return {
-            // Add auth headers here later
-          };
+          return {};
         },
       }),
     ],
   });
-};
+}

@@ -5,6 +5,15 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
 export default function Home() {
+  const registerMutation = trpc.auth.register.useMutation({
+    onError: (error) => {
+      // Only bubble non-conflict errors
+      if (error.message !== "Email already in use") {
+        toast.error(error.message);
+      }
+    },
+  });
+
   const loginMutation = trpc.auth.login.useMutation({
     onSuccess: (data) => {
       toast.success("Login successful!");
@@ -16,11 +25,29 @@ export default function Home() {
     },
   });
 
-  const handleTestLogin = () => {
-    loginMutation.mutate({
+  const handleTestLogin = async () => {
+    const credentials = {
       email: "test@example.com",
       password: "password123",
-    });
+    };
+
+    try {
+      await registerMutation.mutateAsync({
+        ...credentials,
+        phoneNumber: "+15555550123",
+      });
+      toast.success("Seed user created");
+    } catch (error) {
+      // Ignore conflict errors; user already exists
+      const conflict =
+        error instanceof Error && error.message.includes("already in use");
+      if (!conflict) {
+        console.error("Register error:", error);
+        return;
+      }
+    }
+
+    loginMutation.mutate(credentials);
   };
 
   return (
@@ -33,8 +60,13 @@ export default function Home() {
       </div>
 
       <div className="flex flex-col gap-4">
-        <Button onClick={handleTestLogin} disabled={loginMutation.isPending}>
-          {loginMutation.isPending ? "Testing..." : "Test tRPC Login"}
+        <Button
+          onClick={handleTestLogin}
+          disabled={loginMutation.isPending || registerMutation.isPending}
+        >
+          {loginMutation.isPending || registerMutation.isPending
+            ? "Testing..."
+            : "Test tRPC Login"}
         </Button>
 
         {loginMutation.isSuccess && (
