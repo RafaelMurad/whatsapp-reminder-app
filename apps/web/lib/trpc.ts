@@ -15,7 +15,12 @@ export function getTRPCClient() {
       httpBatchLink({
         url: `${getBaseUrl()}/api/trpc`,
         headers() {
-          return {};
+          const token = localStorage.getItem("auth_token");
+          return token
+            ? {
+                Authorization: `Bearer ${token}`,
+              }
+            : {};
         },
       }),
     ],

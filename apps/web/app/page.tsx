@@ -1,77 +1,54 @@
 "use client";
 
-import { trpc } from "@/lib/trpc";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useAuth } from "@/lib/auth-context";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
 
 export default function Home() {
-  const registerMutation = trpc.auth.register.useMutation({
-    onError: (error) => {
-      // Only bubble non-conflict errors
-      if (error.message !== "Email already in use") {
-        toast.error(error.message);
-      }
-    },
-  });
+  const router = useRouter();
+  const { isAuthenticated, isLoading } = useAuth();
 
-  const loginMutation = trpc.auth.login.useMutation({
-    onSuccess: (data) => {
-      toast.success("Login successful!");
-      console.log("Login response:", data);
-    },
-    onError: (error) => {
-      toast.error(error.message);
-      console.error("Login error:", error);
-    },
-  });
-
-  const handleTestLogin = async () => {
-    const credentials = {
-      email: "test@example.com",
-      password: "password123",
-    };
-
-    try {
-      await registerMutation.mutateAsync({
-        ...credentials,
-        phoneNumber: "+15555550123",
-      });
-      toast.success("Seed user created");
-    } catch (error) {
-      // Ignore conflict errors; user already exists
-      const conflict =
-        error instanceof Error && error.message.includes("already in use");
-      if (!conflict) {
-        console.error("Register error:", error);
-        return;
-      }
+  useEffect(() => {
+    if (!isLoading && isAuthenticated) {
+      router.push("/dashboard");
     }
+  }, [isLoading, isAuthenticated, router]);
 
-    loginMutation.mutate(credentials);
-  };
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <p className="text-muted-foreground">Loading...</p>
+      </div>
+    );
+  }
+
+  if (isAuthenticated) {
+    return null; // Will redirect to dashboard
+  }
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-8 p-8">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold">WhatsApp Reminder App</h1>
-        <p className="mt-4 text-muted-foreground">
+      <div className="text-center space-y-4">
+        <h1 className="text-4xl font-bold md:text-5xl">
+          WhatsApp Reminder App
+        </h1>
+        <p className="text-lg text-muted-foreground max-w-md">
+          Never miss a reminder with WhatsApp notifications
+        </p>
+        <p className="text-sm text-muted-foreground">
           Next.js 16 + React 19 + tRPC + Tailwind v4
         </p>
       </div>
 
-      <div className="flex flex-col gap-4">
-        <Button
-          onClick={handleTestLogin}
-          disabled={loginMutation.isPending || registerMutation.isPending}
-        >
-          {loginMutation.isPending || registerMutation.isPending
-            ? "Testing..."
-            : "Test tRPC Login"}
+      <div className="flex flex-col sm:flex-row gap-4">
+        <Button asChild size="lg">
+          <Link href="/register">Get Started</Link>
         </Button>
-
-        {loginMutation.isSuccess && (
-          <p className="text-sm text-green-600">✓ tRPC connection working!</p>
-        )}
+        <Button asChild variant="outline" size="lg">
+          <Link href="/login">Sign In</Link>
+        </Button>
       </div>
     </div>
   );
