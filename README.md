@@ -13,12 +13,12 @@
 
 ## 🎯 Project Overview
 
-A portfolio project built to showcase full-stack TypeScript development, focusing on:
-- **End-to-end type safety** with tRPC
-- **Modern frontend** with SolidJS and SolidStart
+A portfolio project demonstrating full-stack TypeScript development and framework migration:
+- **End-to-end type safety** with tRPC across entire stack
+- **Modern React development** with Next.js 16 and React 19
+- **Framework migration expertise** - Built in SolidJS, migrated to React
 - **Professional architecture** using monorepo patterns
 - **Real-world integration** with Twilio WhatsApp API
-- **Production deployment** on Vercel + Railway
 
 **Timeline:** 7-day MVP sprint (Nov 11-18, 2025) | 5-7 day React migration (Nov 15-21, 2025)
 **Status:** 🔄 Migrating SolidJS → React/Next.js | Day 1 Complete, Day 2 Starting
