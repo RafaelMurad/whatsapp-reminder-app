@@ -37,7 +37,7 @@ A portfolio project built to showcase full-stack TypeScript development, focusin
 - [x] Comprehensive error handling and logging
 - [x] Type-safe API with tRPC
 - [x] Database schema with Prisma ORM
-- [ ] Production deployment (challenges documented, see TECHNICAL_DEEP_DIVE.md)
+- [ ] Production deployment (challenges documented, see [docs/reference/technical-deep-dive.md](docs/reference/technical-deep-dive.md))
 
 ### Future Enhancements
 - AI-generated reminder messages (OpenAI)
@@ -45,6 +45,19 @@ A portfolio project built to showcase full-stack TypeScript development, focusin
 - Recurring reminders
 - Multi-channel notifications (Email, SMS)
 - Shared reminders for teams
+
+---
+
+## 📚 Documentation
+
+Comprehensive documentation is available in the [`docs/`](docs/) folder:
+
+- **[Context](docs/context.md)** - Quick project overview and current state
+- **[Tech Stack Decisions](docs/decisions/tech-stack.md)** - Why I chose each technology
+- **[Migration Plan](docs/plans/migration.md)** - SolidJS → React migration roadmap
+- **[Technical Deep Dive](docs/reference/technical-deep-dive.md)** - In-depth technical explanations
+
+See [docs/README.md](docs/README.md) for the complete documentation index.
 
 ---
 
@@ -73,7 +86,7 @@ A portfolio project built to showcase full-stack TypeScript development, focusin
 ### Deployment
 - **Local Development** - Fully functional with SQLite
 - **Target Platforms** - Vercel (frontend) + Railway (worker)
-- **Status** - Deployment challenges documented (see [Technical Deep Dive](TECHNICAL_DEEP_DIVE.md))
+- **Status** - Deployment challenges documented (see [Technical Deep Dive](docs/reference/technical-deep-dive.md))
 - **Learnings** - Serverless constraints, Prisma bundling, platform-specific configs
 
 ---
@@ -329,7 +342,7 @@ This project demonstrates:
 - **Continuous learning mindset** (new frameworks, deployment platforms)
 - **Professional communication** (clear documentation, commit history)
 
-**See [TECHNICAL_DEEP_DIVE.md](TECHNICAL_DEEP_DIVE.md) for in-depth explanations of every concept.**
+**See [docs/reference/technical-deep-dive.md](docs/reference/technical-deep-dive.md) for in-depth explanations of every concept.**
 
 ---
 
