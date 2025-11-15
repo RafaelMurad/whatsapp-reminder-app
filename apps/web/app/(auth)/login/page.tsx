@@ -7,7 +7,6 @@ import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/lib/auth-context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Card,
   CardContent,
@@ -17,21 +16,20 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
 import { parseAuthError, type FieldErrors } from "@/lib/auth-errors";
+import { FormField, ErrorAlert } from "@/components/form";
+import { cn } from "@/lib/utils";
 
 export default function LoginPage() {
   const router = useRouter();
   const { login: authLogin } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<FormErrors>({});
+  const [errors, setErrors] = useState<FieldErrors>({});
 
   const loginMutation = trpc.auth.login.useMutation({
     onSuccess: (data) => {
-      // Clear any previous errors
       setErrors({});
-      // Store token and user in auth context
       authLogin(data.token, {
         id: data.user.id,
         email: data.user.email,
@@ -41,21 +39,16 @@ export default function LoginPage() {
       router.push("/dashboard");
     },
     onError: (error) => {
-      // Use utility to parse error and map to specific fields
       const newErrors = parseAuthError(error, ["email", "password"]);
-
-      // Show toast for general/network errors (but not credential errors)
       if (newErrors.general && !newErrors.general.includes("Invalid email")) {
         toast.error(newErrors.general);
       }
-
       setErrors(newErrors);
     },
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Clear previous errors on new submit
     setErrors({});
     loginMutation.mutate({ email, password });
   };
@@ -74,74 +67,37 @@ export default function LoginPage() {
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
-            {/* General Error (shown at top for credential errors) */}
-            {errors.general && (
-              <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive flex items-start gap-2">
-                <span className="text-base mt-0.5">⚠</span>
-                <p>{errors.general}</p>
-              </div>
-            )}
+            {/* General Error Alert */}
+            {errors.general && <ErrorAlert>{errors.general}</ErrorAlert>}
 
             {/* Email Field */}
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+            <FormField label="Email" error={errors.email} required>
               <Input
-                id="email"
                 type="email"
                 placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required
                 autoComplete="email"
                 disabled={isLoading}
-                aria-invalid={!!errors.email || hasCredentialError}
-                aria-describedby={errors.email ? "email-error" : undefined}
-                className={cn(
-                  (errors.email || hasCredentialError) && "border-destructive"
-                )}
+                className={cn(hasCredentialError && "border-destructive")}
               />
-              {errors.email && (
-                <p
-                  id="email-error"
-                  className="text-sm text-destructive flex items-center gap-1"
-                >
-                  <span className="text-base">⚠</span>
-                  {errors.email}
-                </p>
-              )}
-            </div>
+            </FormField>
 
             {/* Password Field */}
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+            <FormField label="Password" error={errors.password} required>
               <Input
-                id="password"
                 type="password"
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required
                 autoComplete="current-password"
                 minLength={8}
                 disabled={isLoading}
-                aria-invalid={!!errors.password || hasCredentialError}
-                aria-describedby={errors.password ? "password-error" : undefined}
-                className={cn(
-                  (errors.password || hasCredentialError) &&
-                    "border-destructive"
-                )}
+                className={cn(hasCredentialError && "border-destructive")}
               />
-              {errors.password && (
-                <p
-                  id="password-error"
-                  className="text-sm text-destructive flex items-center gap-1"
-                >
-                  <span className="text-base">⚠</span>
-                  {errors.password}
-                </p>
-              )}
-            </div>
+            </FormField>
           </CardContent>
+
           <CardFooter className="flex flex-col space-y-4">
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? "Signing in..." : "Sign in"}
