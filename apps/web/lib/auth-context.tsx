@@ -4,7 +4,6 @@ import {
   createContext,
   useContext,
   useState,
-  useEffect,
   type ReactNode,
 } from "react";
 
@@ -17,7 +16,6 @@ interface User {
 interface AuthContextValue {
   user: User | null;
   token: string | null;
-  isLoading: boolean;
   login: (token: string, user: User) => void;
   logout: () => void;
   isAuthenticated: boolean;
@@ -29,29 +27,27 @@ const TOKEN_KEY = "auth_token";
 const USER_KEY = "auth_user";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  // Lazy state initialization - runs once on mount, no effect needed
+  const [user, setUser] = useState<User | null>(() => {
+    if (typeof window === "undefined") return null;
 
-  // Restore auth state from localStorage on mount
-  useEffect(() => {
-    const storedToken = localStorage.getItem(TOKEN_KEY);
     const storedUser = localStorage.getItem(USER_KEY);
-
-    if (storedToken && storedUser) {
+    if (storedUser) {
       try {
-        const parsedUser = JSON.parse(storedUser);
-        setToken(storedToken);
-        setUser(parsedUser);
+        return JSON.parse(storedUser);
       } catch (error) {
         console.error("Failed to parse stored user:", error);
-        localStorage.removeItem(TOKEN_KEY);
         localStorage.removeItem(USER_KEY);
+        return null;
       }
     }
+    return null;
+  });
 
-    setIsLoading(false);
-  }, []);
+  const [token, setToken] = useState<string | null>(() => {
+    if (typeof window === "undefined") return null;
+    return localStorage.getItem(TOKEN_KEY);
+  });
 
   const login = (newToken: string, newUser: User) => {
     setToken(newToken);
@@ -70,7 +66,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const value: AuthContextValue = {
     user,
     token,
-    isLoading,
     login,
     logout,
     isAuthenticated: !!token && !!user,
