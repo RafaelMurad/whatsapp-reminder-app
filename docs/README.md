@@ -15,7 +15,8 @@ docs/
 ├── decisions/                         # Technology decisions & rationale
 │   └── tech-stack.md
 ├── plans/                            # Migration plans & roadmaps
-│   └── migration.md
+│   ├── mvp-original.md               # Original SolidJS MVP plan
+│   └── migration.md                  # React migration roadmap
 └── reference/                        # Deep technical documentation
     └── technical-deep-dive.md
 ```
@@ -58,6 +59,18 @@ Contains:
 - Form library choice (TanStack Form)
 - Deployment platform choices
 - Decision framework for future tech
+
+### [plans/mvp-original.md](plans/mvp-original.md)
+**Purpose:** Original MVP plan and development log
+**Update:** Historical record (completed)
+**Use:** Reference for what was built in SolidJS
+
+Contains:
+- Original 7-day MVP timeline
+- Development progress logs
+- Tech stack evaluation
+- Lessons learned from SolidJS project
+- Deployment challenges and decisions
 
 ### [plans/migration.md](plans/migration.md)
 **Purpose:** Detailed migration roadmap
@@ -134,6 +147,7 @@ Contains:
 |----------|--------------|-------------|---------------|
 | context.md | ❌ | ✅✅✅ | ❌ |
 | tech-stack.md | ✅✅ | ✅ | ✅ |
+| mvp-original.md | ✅ | ❌ | ✅ |
 | migration.md | ✅ | ✅✅ | ❌ |
 | technical-deep-dive.md | ✅✅✅ | ❌ | ✅✅✅ |
 
