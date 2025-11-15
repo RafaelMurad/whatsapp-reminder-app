@@ -1,28 +1,34 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    // SolidJS specific
-    "jsx": "preserve",                        // SolidJS handles JSX compilation
-    "jsxImportSource": "solid-js",           // Use Solid's JSX runtime
-    
-    // Browser environment
-    "lib": ["ES2022", "DOM", "DOM.Iterable"], // Add browser APIs
-    
-    // Module resolution
-    "types": ["vite/client"],                 // Vite type definitions
-    "isolatedModules": true,                  // Each file can be transpiled independently
-    
-    // Paths (import aliases)
-    "baseUrl": ".",
-    "paths": {
-      "~/*": ["./src/*"]                      // Import as ~/components/Button
-    },
-    "composite": true,
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
     "incremental": true,
-    // Redirect build output to dist instead of polluting src with transpiled JS
-    "outDir": "./dist",
-    "rootDir": "./src"
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts"
+  ],
+  "exclude": ["node_modules"]
 }
