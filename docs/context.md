@@ -6,17 +6,20 @@
 
 ---
 
-## Current Status: SolidJS → React Migration (Day 1)
+## Current Status: SolidJS → React Migration (Day 1 ✅ Complete, Starting Day 2)
 
 **What's working:**
-- ✅ Complete WhatsApp reminder app built in SolidJS
+- ✅ Complete WhatsApp reminder app built in SolidJS (archived)
 - ✅ Backend fully functional (tRPC, Prisma, auth, worker)
 - ✅ Local development works perfectly
 - ✅ Database using absolute paths (fixed SQLite connection issues)
+- ✅ Next.js 16 app scaffolded and running
+- ✅ tRPC client connected and tested
+- ✅ shadcn/ui + TanStack installed
 
 **Current task:**
-- 🔄 Migrating frontend from SolidJS to React/Next.js
-- 📍 On Day 1 of migration plan (see [plans/migration.md](plans/migration.md))
+- 🔄 Day 2: Building authentication pages and dashboard
+- 📍 See [plans/migration.md](plans/migration.md) for detailed roadmap
 
 ---
 
@@ -33,7 +36,7 @@ Full-stack WhatsApp reminder app - users register, create reminders, get WhatsAp
 - Monorepo: pnpm workspaces
 
 **Tech stack (target):**
-- Frontend: Next.js 15 + React + shadcn/ui + TanStack
+- Frontend: Next.js 16 + React 19 + shadcn/ui + TanStack Query v4
 - Backend: Same (tRPC + Prisma + Zod)
 - Database: Vercel Postgres
 - Worker: Same (deploy to Railway)
@@ -97,17 +100,25 @@ DATABASE_URL=file:/Users/rafael.murad/Documents/Training/whatsapp-reminder-app/p
 ## Current Migration Progress
 
 ### ✅ Completed
-1. Documentation written (concise, first-person)
-2. Organized docs into `docs/` folder structure
-3. Created docs index and organization system
 
-### 🔄 Next Tasks (Day 1)
-1. Archive SolidJS web app to `archive/solidjs-version/`
-2. Create Next.js 15 app (TypeScript + Tailwind)
-3. Install shadcn/ui
-4. Install TanStack Query + Form
-5. Connect tRPC client to backend
-6. Test one tRPC call
+**Day 1 (Nov 15):**
+1. SolidJS app archived to `archive/solidjs-version/`
+2. Next.js 16 app scaffolded (App Router, TypeScript, Tailwind v4)
+3. Prettier + ESLint configured
+4. shadcn/ui installed (button, card, dialog, form, input, label, sonner)
+5. TanStack Query v4 + Form installed (v4 for tRPC v10 compatibility)
+6. tRPC v10 client connected to backend
+7. tRPC tested successfully (test user seeded, login working)
+8. `.env.local` created with DATABASE_URL + JWT_SECRET
+9. Documentation updated (migration-journal.md, migration-learnings.md)
+
+### 🔄 Next Tasks (Day 2)
+1. Create auth context for token storage
+2. Build login page (`app/(auth)/login/page.tsx`)
+3. Build register page (`app/(auth)/register/page.tsx`)
+4. Build dashboard layout (`app/(protected)/dashboard/page.tsx`)
+5. Add protected route middleware
+6. Implement logout functionality
 
 See [plans/migration.md](plans/migration.md) for full day-by-day breakdown.
 
@@ -170,11 +181,14 @@ I'm on Day 1 of migration. Let's continue from where we left off.
 
 ## Git Status (as of last update)
 
-Current branch: `main`
-Untracked files:
-- docs/ (entire documentation folder)
+Current branch: `feat/nextjs-migration`
 
-**Note:** Ready to commit organized documentation structure.
+Recent commits:
+- `84d0a30` feat(web): migrate to Next.js 16 and update TRPC integration
+- `d381b2b` feat(web): configure Prettier, shadcn/ui, TanStack, and tRPC client
+- `8e3f6ed` feat(web): archive SolidJS version and scaffold Next.js 16 app
+
+**Note:** Day 1 migration complete. Documentation updated. Ready for Day 2 auth implementation.
 
 ---
 
