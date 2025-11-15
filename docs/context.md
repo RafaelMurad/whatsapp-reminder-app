@@ -6,7 +6,7 @@
 
 ---
 
-## Current Status: SolidJS → React Migration (Day 1 ✅ Complete, Starting Day 2)
+## Current Status: SolidJS → React Migration (Day 2 ✅ Complete, Ready for Day 3)
 
 **What's working:**
 - ✅ Complete WhatsApp reminder app built in SolidJS (archived)
@@ -16,9 +16,12 @@
 - ✅ Next.js 16 app scaffolded and running
 - ✅ tRPC client connected and tested
 - ✅ shadcn/ui + TanStack installed
+- ✅ Authentication flow complete (login, register, protected routes)
+- ✅ Dashboard with dark mode toggle
+- ✅ Design system foundation (reusable form components)
 
 **Current task:**
-- 🔄 Day 2: Building authentication pages and dashboard
+- 🔄 Day 3: Building reminder CRUD functionality
 - 📍 See [plans/migration.md](plans/migration.md) for detailed roadmap
 
 ---
@@ -101,7 +104,7 @@ DATABASE_URL=file:/Users/rafael.murad/Documents/Training/whatsapp-reminder-app/p
 
 ### ✅ Completed
 
-**Day 1 (Nov 15):**
+**Day 1 (Nov 15 - Morning):**
 1. SolidJS app archived to `archive/solidjs-version/`
 2. Next.js 16 app scaffolded (App Router, TypeScript, Tailwind v4)
 3. Prettier + ESLint configured
@@ -112,13 +115,24 @@ DATABASE_URL=file:/Users/rafael.murad/Documents/Training/whatsapp-reminder-app/p
 8. `.env.local` created with DATABASE_URL + JWT_SECRET
 9. Documentation updated (migration-journal.md, migration-learnings.md)
 
-### 🔄 Next Tasks (Day 2)
-1. Create auth context for token storage
-2. Build login page (`app/(auth)/login/page.tsx`)
-3. Build register page (`app/(auth)/register/page.tsx`)
-4. Build dashboard layout (`app/(protected)/dashboard/page.tsx`)
-5. Add protected route middleware
-6. Implement logout functionality
+**Day 2 (Nov 15 - Afternoon):**
+1. ✅ Auth context with lazy state initialization
+2. ✅ Login page with production-grade error handling
+3. ✅ Register page with field-specific validation
+4. ✅ Dashboard with header, user info, logout button
+5. ✅ Protected route middleware in layout.tsx
+6. ✅ Dark mode support (next-themes + toggle button)
+7. ✅ Design system foundation (FormField, ErrorMessage, ErrorAlert)
+8. ✅ Reusable error parsing utility (lib/auth-errors.ts)
+9. ✅ Component composition patterns established
+
+### 🔄 Next Tasks (Day 3)
+1. Create reminder form with TanStack Form
+2. Add quick time presets (+1min, +5min, +15min, +1hr)
+3. Build reminder list with Card components
+4. Implement delete with confirmation dialog
+5. Add empty state with helpful CTA
+6. Skeleton loading states
 
 See [plans/migration.md](plans/migration.md) for full day-by-day breakdown.
 

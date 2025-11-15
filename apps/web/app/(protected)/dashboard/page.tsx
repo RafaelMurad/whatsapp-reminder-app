@@ -12,31 +12,23 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { toast } from "sonner";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { user, logout, isAuthenticated, isLoading } = useAuth();
+  const { user, logout, isAuthenticated } = useAuth();
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
+    if (!isAuthenticated) {
       router.push("/login");
     }
-  }, [isLoading, isAuthenticated, router]);
+  }, [isAuthenticated, router]);
 
   const handleLogout = () => {
     logout();
     toast.success("Logged out successfully");
     router.push("/login");
   };
-
-  // Show loading while checking auth
-  if (isLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <p className="text-muted-foreground">Loading...</p>
-      </div>
-    );
-  }
 
   // Show nothing if not authenticated (will redirect)
   if (!isAuthenticated || !user) {
@@ -49,8 +41,11 @@ export default function DashboardPage() {
       <header className="border-b">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <h1 className="text-2xl font-bold">WhatsApp Reminders</h1>
-          <div className="flex items-center gap-4">
-            <p className="text-sm text-muted-foreground">{user.email}</p>
+          <div className="flex items-center gap-3">
+            <p className="text-sm text-muted-foreground hidden sm:block">
+              {user.email}
+            </p>
+            <ThemeToggle />
             <Button variant="outline" onClick={handleLogout}>
               Logout
             </Button>
