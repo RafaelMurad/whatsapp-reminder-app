@@ -1,5 +1,8 @@
 {
   "buildCommand": "pnpm --filter web build",
   "outputDirectory": "apps/web/.next",
-  "installCommand": "pnpm install"
+  "installCommand": "pnpm install",
+  "env": {
+    "PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING": "1"
+  }
 }
