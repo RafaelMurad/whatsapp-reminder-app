@@ -158,7 +158,9 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    border-color: var(--border);
+    outline-color: var(--ring);
+    outline-offset: 2px;
   }
 
   html {
@@ -167,32 +169,38 @@
   }
 
   body {
-    @apply bg-bg-primary text-text-primary;
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
   /* Scrollbar Styling */
   ::-webkit-scrollbar {
-    @apply w-2 h-2;
+    width: 0.5rem;
+    height: 0.5rem;
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-bg-secondary;
+    background-color: var(--color-bg-secondary);
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-text-tertiary rounded-full;
+    background-color: var(--color-text-tertiary);
+    border-radius: 9999px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-text-secondary;
+    background-color: var(--color-text-secondary);
   }
 }
 
 @layer components {
   /* Glass Card Component */
   .glass-card {
-    @apply relative overflow-hidden rounded-2xl border border-glass-border;
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    border: 1px solid var(--color-glass-border);
     background: oklch(1 0 0 / 5%);
     backdrop-filter: blur(20px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
@@ -200,45 +208,65 @@
 
   /* Glass Card with Hover Effect */
   .glass-card-hover {
-    @apply glass-card transition-all duration-fast;
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    border: 1px solid var(--color-glass-border);
+    background: oklch(1 0 0 / 5%);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .glass-card-hover:hover {
-    @apply border-glass-border/30 shadow-2xl;
+    border-color: oklch(1 0 0 / 3%);
     background: oklch(1 0 0 / 8%);
     transform: translateY(-2px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   }
 
   /* Gradient Text */
   .gradient-text-purple-pink {
-    @apply bg-gradient-to-r from-accent-purple to-accent-pink bg-clip-text text-transparent;
+    background: linear-gradient(to right, var(--color-accent-purple), var(--color-accent-pink));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-fill-color: transparent;
   }
 
   .gradient-text-green-cyan {
-    @apply bg-gradient-to-r from-accent-green to-accent-cyan bg-clip-text text-transparent;
+    background: linear-gradient(to right, var(--color-accent-green), var(--color-accent-cyan));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-fill-color: transparent;
   }
 
   /* Gradient Backgrounds */
   .gradient-bg-purple-pink {
-    @apply bg-gradient-to-br from-accent-purple to-accent-pink;
+    background: linear-gradient(to bottom right, var(--color-accent-purple), var(--color-accent-pink));
   }
 
   .gradient-bg-green-cyan {
-    @apply bg-gradient-to-br from-accent-green to-accent-cyan;
+    background: linear-gradient(to bottom right, var(--color-accent-green), var(--color-accent-cyan));
   }
 
   .gradient-bg-amber-red {
-    @apply bg-gradient-to-br from-accent-amber to-error;
+    background: linear-gradient(to bottom right, var(--color-accent-amber), var(--color-error));
   }
 
   /* Animated Gradient Border */
   .gradient-border {
-    @apply relative;
+    position: relative;
   }
 
   .gradient-border::before {
     content: '';
-    @apply absolute inset-0 rounded-2xl p-px bg-gradient-to-br from-accent-purple via-accent-pink to-accent-cyan;
+    position: absolute;
+    inset: 0;
+    border-radius: 1rem;
+    padding: 1px;
+    background: linear-gradient(to bottom right, var(--color-accent-purple), var(--color-accent-pink), var(--color-accent-cyan));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
@@ -274,12 +302,14 @@
 
   /* Shimmer Effect */
   .shimmer {
-    @apply relative overflow-hidden;
+    position: relative;
+    overflow: hidden;
   }
 
   .shimmer::after {
     content: '';
-    @apply absolute inset-0;
+    position: absolute;
+    inset: 0;
     background: linear-gradient(
       90deg,
       transparent,
@@ -314,22 +344,35 @@
 
   /* Magnetic Button Effect (will be enhanced with JS) */
   .magnetic-button {
-    @apply relative inline-flex items-center justify-center rounded-xl px-6 py-3 font-semibold transition-all duration-fast;
-    @apply gradient-bg-purple-pink text-white shadow-xl hover:shadow-2xl;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    background: linear-gradient(to bottom right, var(--color-accent-purple), var(--color-accent-pink));
+    color: white;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform;
   }
 
   .magnetic-button:hover {
-    @apply scale-105;
+    transform: scale(1.05);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   }
 
   .magnetic-button:active {
-    @apply scale-95;
+    transform: scale(0.95);
   }
 
   /* Progress Ring (for circular progress) */
   .progress-ring {
-    @apply relative inline-flex items-center justify-center;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .progress-ring__circle {
@@ -340,13 +383,25 @@
 
   /* Achievement Badge */
   .achievement-badge {
-    @apply glass-card inline-flex items-center gap-2 px-4 py-2 font-medium;
-    @apply gradient-border;
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    border: 1px solid var(--color-glass-border);
+    background: oklch(1 0 0 / 5%);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
   }
 
   /* Streak Flame (gamification) */
   .streak-flame {
-    @apply relative inline-block text-accent-amber;
+    position: relative;
+    display: inline-block;
+    color: var(--color-accent-amber);
     filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.5));
     animation: flicker 2s infinite;
   }
@@ -364,34 +419,60 @@
 
   /* XP Bar */
   .xp-bar {
-    @apply relative h-3 w-full overflow-hidden rounded-full bg-bg-tertiary;
+    position: relative;
+    height: 0.75rem;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 9999px;
+    background-color: var(--color-bg-tertiary);
   }
 
   .xp-bar__fill {
-    @apply h-full rounded-full gradient-bg-green-cyan;
+    height: 100%;
+    border-radius: 9999px;
+    background: linear-gradient(to bottom right, var(--color-accent-green), var(--color-accent-cyan));
     transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   /* Level Badge */
   .level-badge {
-    @apply inline-flex items-center justify-center rounded-full px-3 py-1 text-sm font-bold;
-    @apply gradient-bg-purple-pink text-white shadow-xl;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    background: linear-gradient(to bottom right, var(--color-accent-purple), var(--color-accent-pink));
+    color: white;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
   }
 
   /* Confetti Canvas (for celebrations) */
   .confetti-canvas {
-    @apply pointer-events-none fixed inset-0 z-[9999];
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
   }
 }
 
 @layer utilities {
   /* Text Gradient Utilities */
   .text-gradient-purple {
-    @apply bg-gradient-to-r from-accent-purple to-accent-pink bg-clip-text text-transparent;
+    background: linear-gradient(to right, var(--color-accent-purple), var(--color-accent-pink));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-fill-color: transparent;
   }
 
   .text-gradient-cyan {
-    @apply bg-gradient-to-r from-accent-cyan to-accent-green bg-clip-text text-transparent;
+    background: linear-gradient(to right, var(--color-accent-cyan), var(--color-accent-green));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-fill-color: transparent;
   }
 
   /* Backdrop Blur Utilities */
