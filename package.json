@@ -7,7 +7,7 @@
     "dev:web": "pnpm --filter web dev",
     "dev:worker": "pnpm --filter worker dev",
     "dev:studio": "pnpm --filter db studio & pnpm --filter worker dev & pnpm --filter web dev",
-    "build": "pnpm --filter web build",
+    "build": "cd apps/web && pnpm build",
     "worker": "pnpm --filter worker dev",
     "db:studio": "pnpm --filter db studio",
     "db:migrate": "pnpm --filter db migrate"
