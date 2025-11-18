@@ -1,0 +1,10 @@
+# Ignore archive folder (contains old SolidJS version for learning reference)
+archive/
+
+# Ignore documentation
+docs/
+learning/
+
+# Ignore development files
+*.md
+!README.md
