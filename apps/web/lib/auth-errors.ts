@@ -1,6 +1,3 @@
-import { TRPCClientError } from "@trpc/client";
-import type { AppRouter } from "@repo/api";
-
 /**
  * Field-specific error mapping for auth forms
  */
@@ -30,7 +27,7 @@ export interface FieldErrors {
  * // Returns: { email: "This email is already registered" }
  */
 export function parseAuthError(
-  error: TRPCClientError<AppRouter>,
+  error: { message: string },
   availableFields: string[] = []
 ): FieldErrors {
   const errors: FieldErrors = {};
