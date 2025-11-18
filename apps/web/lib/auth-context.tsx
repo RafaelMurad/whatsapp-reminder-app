@@ -19,6 +19,7 @@ interface AuthContextValue {
   login: (token: string, user: User) => void;
   logout: () => void;
   isAuthenticated: boolean;
+  isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -69,6 +70,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     login,
     logout,
     isAuthenticated: !!token && !!user,
+    isLoading: false, // Client-side only auth, no async loading needed
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

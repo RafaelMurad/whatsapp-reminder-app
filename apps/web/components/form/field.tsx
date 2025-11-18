@@ -1,4 +1,4 @@
-import { cloneElement, useId } from "react";
+import { cloneElement, useId, type ReactElement } from "react";
 import { Label } from "@/components/ui/label";
 import { ErrorMessage } from "./error-message";
 import { cn } from "@/lib/utils";
@@ -54,7 +54,8 @@ export function FormField({
 }: FormFieldProps) {
   // Generate unique IDs for accessibility
   const generatedId = useId();
-  const id = children.props.id || generatedId;
+  const childProps = children.props as { id?: string; className?: string };
+  const id = childProps.id || generatedId;
   const errorId = `${id}-error`;
   const hintId = `${id}-hint`;
 
@@ -71,13 +72,13 @@ export function FormField({
       </Label>
 
       {/* Clone input element and inject accessibility props */}
-      {cloneElement(children, {
+      {cloneElement<any>(children, {
         id,
         "aria-invalid": !!error,
         "aria-describedby": error ? errorId : hint ? hintId : undefined,
         "aria-required": required,
         className: cn(
-          children.props.className,
+          childProps.className,
           error && "border-destructive focus-visible:ring-destructive"
         ),
       })}
