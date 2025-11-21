@@ -59,3 +59,6 @@ coverage/
 # Prevent committing accidental local build config outputs
 apps/web/app.config.*
 *.timestamp*.js
+
+# Next.js build output
+.next/
