@@ -1,33 +1,15 @@
-// Twilio WhatsApp Service
-import twilio from 'twilio'
+// DEPRECATED: Twilio WhatsApp Service
+// This service has been replaced with whatsapp-web.js in the worker
+// WhatsApp messages are now sent directly from the worker using your own WhatsApp account
+// See: apps/worker/src/whatsapp-client.ts
 
-const accountSid = process.env.TWILIO_ACCOUNT_SID
-const authToken = process.env.TWILIO_AUTH_TOKEN
-const whatsappNumber = process.env.TWILIO_WHATSAPP_NUMBER
-
-if (!accountSid || !authToken || !whatsappNumber) {
-  console.warn('⚠️  Twilio credentials not configured. WhatsApp messages will not be sent.')
-}
-
-const client = accountSid && authToken ? twilio(accountSid, authToken) : null
-
-export async function sendWhatsAppMessage(to: string, body: string): Promise<boolean> {
-  if (!client) {
-    console.warn('⚠️  Twilio client not initialized. Skipping WhatsApp message.')
-    return false
-  }
-
-  try {
-    const message = await client.messages.create({
-      from: `whatsapp:${whatsappNumber}`,
-      to: `whatsapp:${to}`,
-      body,
-    })
-
-    console.log(`✅ WhatsApp message sent: ${message.sid}`)
-    return true
-  } catch (error) {
-    console.error('❌ Failed to send WhatsApp message:', error)
-    return false
-  }
+/**
+ * @deprecated Use the worker's whatsapp-client.ts instead
+ * This was the old Twilio-based implementation that required paid API credits
+ * The new implementation uses whatsapp-web.js which is FREE
+ */
+export async function sendWhatsAppMessage(_to: string, _body: string): Promise<boolean> {
+  console.warn('⚠️  This Twilio service is deprecated. Messages are sent via the worker.')
+  console.warn('⚠️  Make sure the worker is running: pnpm worker')
+  return false
 }

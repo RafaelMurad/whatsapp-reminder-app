@@ -56,6 +56,10 @@ coverage/
 # Misc
 .turbo/
 
+# WhatsApp Web.js session data (contains auth tokens - do not commit!)
+.wwebjs_auth/
+.wwebjs_cache/
+
 # Prevent committing accidental local build config outputs
 apps/web/app.config.*
 *.timestamp*.js

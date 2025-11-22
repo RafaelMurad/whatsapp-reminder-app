@@ -7,6 +7,8 @@
     "build:packages": "pnpm --filter @repo/db exec tsc && pnpm --filter @repo/api exec tsc",
     "dev": "./dev.sh",
     "build": "pnpm build:packages && pnpm --filter web build",
+    "worker": "pnpm --filter @repo/worker start",
+    "worker:dev": "pnpm --filter @repo/worker dev",
     "db:studio": "pnpm --filter @repo/db studio",
     "db:push": "pnpm --filter @repo/db push",
     "db:migrate": "pnpm --filter @repo/db push"
