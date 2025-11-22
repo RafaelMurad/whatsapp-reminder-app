@@ -22,6 +22,7 @@ interface WhatsAppClientEvents {
   'disconnected': (reason: string) => void
   'message_sent': (to: string, body: string) => void
   'message_failed': (to: string, error: string) => void
+  'location_received': (latitude: number, longitude: number, from: string) => void
 }
 
 class WhatsAppClient extends EventEmitter {
@@ -141,6 +142,23 @@ class WhatsAppClient extends EventEmitter {
       this.phoneNumber = null
       console.log('[WhatsApp] Disconnected:', reason)
       this.emit('disconnected', reason)
+    })
+
+    // Listen for incoming messages (for live location)
+    this.client.on('message', async (message) => {
+      try {
+        // Check if it's a location message
+        if (message.type === 'location') {
+          const location = await message.getLocation?.() || message.location
+          if (location) {
+            const from = message.from.replace('@c.us', '')
+            console.log(`[WhatsApp] Location received from +${from}: ${location.latitude}, ${location.longitude}`)
+            this.emit('location_received', location.latitude, location.longitude, from)
+          }
+        }
+      } catch (error) {
+        // Silently ignore non-location messages
+      }
     })
 
     // Start the client
