@@ -31,8 +31,7 @@ function decodeUser(token: string | null): AuthUser | null {
   if (!token) return null;
   const secret = process.env.JWT_SECRET;
   if (!secret) {
-    // In early dev we prefer failing loudly when secret missing
-    console.warn('[tRPC context] Missing JWT_SECRET environment variable');
+    // Missing secret should be caught at startup, not during request
     return null;
   }
   try {

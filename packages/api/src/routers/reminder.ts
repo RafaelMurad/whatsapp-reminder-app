@@ -35,8 +35,8 @@ export const reminderRouter = router({
   // POST /api/reminder/create
   create: protectedProcedure
     .input(z.object({
-      title: z.string().min(1, 'Title is required').max(100, 'Title must be less than 100 characters'),
-      message: z.string().min(1, 'Message is required').max(500, 'Message must be less than 500 characters'),
+      title: z.string().trim().min(1, 'Title is required').max(100, 'Title must be less than 100 characters'),
+      message: z.string().trim().min(1, 'Message is required').max(500, 'Message must be less than 500 characters'),
       scheduledFor: z.string().datetime(), // ISO 8601 string
     }))
     .mutation(async ({ input, ctx }) => {
@@ -55,8 +55,8 @@ export const reminderRouter = router({
   update: protectedProcedure
     .input(z.object({
       id: z.string(),
-      title: z.string().min(1).max(100).optional(),
-      message: z.string().min(1).max(500).optional(),
+      title: z.string().trim().min(1).max(100).optional(),
+      message: z.string().trim().min(1).max(500).optional(),
       scheduledFor: z.string().datetime().optional(),
     }))
     .mutation(async ({ input, ctx }) => {

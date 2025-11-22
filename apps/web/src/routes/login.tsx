@@ -23,8 +23,8 @@ export default function Login() {
 
       setAuthToken(result.token);
       navigate("/dashboard");
-    } catch (err: any) {
-      const message = err?.message ?? "Login failed. Check credentials or try again.";
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Login failed. Check credentials or try again.";
       setError(message);
     } finally {
       setLoading(false);

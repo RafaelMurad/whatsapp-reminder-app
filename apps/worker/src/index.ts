@@ -5,7 +5,9 @@ import { eq, and, lte } from 'drizzle-orm'
 // Twilio WhatsApp sending function (copied here to avoid circular dependency)
 async function sendWhatsAppMessage(to: string, body: string): Promise<boolean> {
   // TODO: Implement Twilio sending when credentials are available
-  console.log(`📤 Would send WhatsApp to ${to}: ${body}`)
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`[Worker] Would send WhatsApp message (dev mode)`)
+  }
   return true
 }
 
@@ -27,15 +29,15 @@ async function checkAndSendReminders() {
       lte(reminders.scheduledFor, now)
     ))
 
-  console.log(`📋 Found ${dueReminders.length} reminders to send`)
+  if (dueReminders.length > 0) {
+    console.log(`[Worker] Processing ${dueReminders.length} due reminder(s)`)
+  }
 
   for (const reminder of dueReminders) {
     if (!reminder.phoneNumber) {
-      console.error(`❌ No phone number for reminder: ${reminder.id}`)
+      console.error(`[Worker] Missing phone number for reminder ${reminder.id}`)
       continue
     }
-
-    console.log(`📤 Sending reminder: ${reminder.title}`)
     
     const sent = await sendWhatsAppMessage(
       reminder.phoneNumber,
@@ -47,10 +49,8 @@ async function checkAndSendReminders() {
       await db.update(reminders)
         .set({ sent: true })
         .where(eq(reminders.id, reminder.id))
-      
-      console.log(`✅ Reminder sent: ${reminder.id}`)
     } else {
-      console.error(`❌ Failed to send reminder: ${reminder.id}`)
+      console.error(`[Worker] Failed to send reminder ${reminder.id}`)
     }
   }
 }
@@ -59,8 +59,7 @@ async function checkAndSendReminders() {
 const INTERVAL = 60 * 1000 // 1 minute
 
 async function main() {
-  console.log('🚀 WhatsApp Reminder Worker started')
-  console.log(`⏰ Checking for reminders every ${INTERVAL / 1000} seconds`)
+  console.log('[Worker] Started - checking reminders every 60s')
   
   // Run immediately on start
   await checkAndSendReminders()

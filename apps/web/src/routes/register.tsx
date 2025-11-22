@@ -31,8 +31,8 @@ export default function Register() {
 
       setAuthToken(result.token);
       navigate('/dashboard');
-    } catch (err: any) {
-      setError(err.message || 'Registration failed');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Registration failed');
     } finally {
       setIsLoading(false);
     }

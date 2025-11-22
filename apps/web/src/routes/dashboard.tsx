@@ -11,9 +11,16 @@ interface Reminder {
   createdAt: string;
 }
 
+interface User {
+  id: string;
+  email: string;
+  phoneNumber: string;
+  createdAt: string;
+}
+
 export default function Dashboard() {
   const navigate = useNavigate();
-  const [user, setUser] = createSignal<any>(null);
+  const [user, setUser] = createSignal<User | null>(null);
   const [reminders, setReminders] = createSignal<Reminder[]>([]);
   const [isLoading, setIsLoading] = createSignal(true);
   const [error, setError] = createSignal('');
@@ -43,8 +50,8 @@ export default function Dashboard() {
       try {
         const data = await trpc.reminder.getAll.query();
         setReminders(data.reminders);
-      } catch (_err) {
-        console.error('Failed to fetch reminders:', _err);
+      } catch {
+        // Silent fail - user will see empty list
       }
     }
   });
@@ -68,8 +75,8 @@ export default function Dashboard() {
       const updated = await trpc.reminder.getAll.query();
       setReminders(updated.reminders);
       setFormData({ title: '', message: '', scheduledFor: '' });
-    } catch (err: any) {
-      setError(err.message || 'Failed to create reminder');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to create reminder');
     } finally {
       setIsCreating(false);
     }
@@ -87,8 +94,8 @@ export default function Dashboard() {
       await trpc.reminder.delete.mutate({ id });
       const updated = await trpc.reminder.getAll.query();
       setReminders(updated.reminders);
-    } catch (err: any) {
-      console.error('Failed to delete reminder:', err);
+    } catch {
+      // Silent fail - reminder stays in list
     }
   };
 

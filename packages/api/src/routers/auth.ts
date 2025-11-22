@@ -8,9 +8,13 @@ export const authRouter = router({
   // POST /api/auth/register
   register: publicProcedure
     .input(z.object({
-      email: z.string().email(),
-      password: z.string().min(8, 'Password must be at least 8 characters'),
-      phoneNumber: z.string().regex(/^\+[1-9]\d{1,14}$/, 'Must be valid E.164 format (e.g., +1234567890)'),
+      email: z.string().trim().toLowerCase().email(),
+      password: z.string()
+        .min(8, 'Password must be at least 8 characters')
+        .max(72, 'Password too long')
+        .refine(pwd => /[A-Z]/.test(pwd), 'Password must contain at least one uppercase letter')
+        .refine(pwd => /[0-9]/.test(pwd), 'Password must contain at least one number'),
+      phoneNumber: z.string().trim().regex(/^\+[1-9]\d{1,14}$/, 'Must be valid E.164 format (e.g., +1234567890)'),
     }))
     .mutation(async ({ input }) => {
       // Check if user exists
@@ -51,7 +55,7 @@ export const authRouter = router({
   // POST /api/auth/login
   login: publicProcedure
     .input(z.object({
-      email: z.string().email(),
+      email: z.string().trim().toLowerCase().email(),
       password: z.string(),
     }))
     .mutation(async ({ input }) => {
