@@ -35,7 +35,7 @@ export default function Dashboard() {
   // Auth guard: fetch current user on mount
   createEffect(async () => {
     try {
-      const currentUser = await trpc.auth.getMe.query();
+      const currentUser = await trpc.auth.me.query();
       setUser(currentUser);
     } catch {
       navigate('/login');
@@ -48,8 +48,8 @@ export default function Dashboard() {
   createEffect(async () => {
     if (user()) {
       try {
-        const data = await trpc.reminder.getAll.query();
-        setReminders(data.reminders);
+        const data = await trpc.reminder.list.query();
+        setReminders(data);
       } catch {
         // Silent fail - user will see empty list
       }
@@ -72,8 +72,8 @@ export default function Dashboard() {
         scheduledFor: new Date(formData().scheduledFor).toISOString(),
       });
 
-      const updated = await trpc.reminder.getAll.query();
-      setReminders(updated.reminders);
+      const updated = await trpc.reminder.list.query();
+      setReminders(updated);
       setFormData({ title: '', message: '', scheduledFor: '' });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to create reminder');
@@ -92,8 +92,8 @@ export default function Dashboard() {
   const handleDeleteReminder = async (id: string) => {
     try {
       await trpc.reminder.delete.mutate({ id });
-      const updated = await trpc.reminder.getAll.query();
-      setReminders(updated.reminders);
+      const updated = await trpc.reminder.list.query();
+      setReminders(updated);
     } catch {
       // Silent fail - reminder stays in list
     }
