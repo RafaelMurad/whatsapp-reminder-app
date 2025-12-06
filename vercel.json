@@ -1,0 +1,4 @@
+{
+  "buildCommand": "pnpm --filter db generate && pnpm --filter web build",
+  "installCommand": "pnpm install --ignore-scripts"
+}

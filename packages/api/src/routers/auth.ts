@@ -40,7 +40,13 @@ export const authRouter = router({
       console.log('[AUTH] User created:', user.id);
       const token = signJwt(user.id);
       console.log('[AUTH] JWT signed, registration complete');
-      return { user, token };
+      return { 
+        user: {
+          ...user,
+          createdAt: user.createdAt.toISOString()
+        }, 
+        token 
+      };
     }),
 
   login: publicProcedure
@@ -55,7 +61,15 @@ export const authRouter = router({
         throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Invalid credentials' });
       }
       const token = signJwt(user.id);
-      return { user: { id: user.id, email: user.email, phoneNumber: user.phoneNumber, createdAt: user.createdAt }, token };
+      return { 
+        user: { 
+          id: user.id, 
+          email: user.email, 
+          phoneNumber: user.phoneNumber, 
+          createdAt: user.createdAt.toISOString() 
+        }, 
+        token 
+      };
     }),
 
   getMe: protectedProcedure

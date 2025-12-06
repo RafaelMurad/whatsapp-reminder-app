@@ -3,7 +3,8 @@
 > A full-stack TypeScript reminder application with WhatsApp notifications - demonstrating modern web development practices and end-to-end type safety.
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?logo=typescript)](https://www.typescriptlang.org/)
-[![SolidJS](https://img.shields.io/badge/SolidJS-1.8-2c4f7c?logo=solid)](https://www.solidjs.com/)
+[![React](https://img.shields.io/badge/React-19.2-61DAFB?logo=react)](https://react.dev/)
+[![Next.js](https://img.shields.io/badge/Next.js-16.0-000000?logo=next.js)](https://nextjs.org/)
 [![tRPC](https://img.shields.io/badge/tRPC-10.45-398ccb)](https://trpc.io/)
 [![Prisma](https://img.shields.io/badge/Prisma-5.7-2D3748?logo=prisma)](https://www.prisma.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -12,15 +13,15 @@
 
 ## 🎯 Project Overview
 
-A portfolio project built to showcase full-stack TypeScript development, focusing on:
-- **End-to-end type safety** with tRPC
-- **Modern frontend** with SolidJS and SolidStart
+A portfolio project demonstrating full-stack TypeScript development and framework migration:
+- **End-to-end type safety** with tRPC across entire stack
+- **Modern React development** with Next.js 16 and React 19
+- **Framework migration expertise** - Built in SolidJS, migrated to React
 - **Professional architecture** using monorepo patterns
 - **Real-world integration** with Twilio WhatsApp API
-- **Production deployment** on Vercel + Railway
 
-**Timeline:** 7-day MVP sprint (Nov 11-18, 2025)
-**Status:** ✅ MVP Complete Locally | 📚 Deployment & Documentation Phase
+**Timeline:** 7-day MVP sprint (Nov 11-18, 2025) | 5-7 day React migration (Nov 15-21, 2025)
+**Status:** 🔄 Migrating SolidJS → React/Next.js | Day 1 Complete, Day 2 Starting
 
 ---
 
@@ -61,33 +62,51 @@ See [docs/README.md](docs/README.md) for the complete documentation index.
 
 ---
 
+## 🔄 Framework Migration Journey
+
+**Why migrate from SolidJS to React?**
+
+This app was originally built with SolidJS to learn fine-grained reactivity and signals. After completing a fully functional MVP locally, I'm migrating to React/Next.js for:
+- **Industry alignment** - React dominates the job market (10,000+ positions vs <50 for SolidJS)
+- **Ecosystem access** - Larger library selection, better tooling, proven deployment
+- **Portfolio impact** - Demonstrates framework-agnostic thinking and migration expertise
+- **Future potential** - If this becomes a real product, React enables team collaboration
+
+**What's preserved:** 70% of the codebase (entire backend: tRPC, Prisma, auth, worker, database schema)
+
+**Migration progress:** Track at [docs/plans/migration.md](docs/plans/migration.md)
+**SolidJS version:** Preserved at [archive/solidjs-version/](archive/solidjs-version/) for comparison
+**Migration learnings:** See [docs/learnings/migration-learnings.md](docs/learnings/migration-learnings.md)
+
+---
+
 ## 🛠️ Tech Stack
 
-### Frontend
-- **[SolidJS](https://www.solidjs.com/)** - Reactive UI library (like React, but faster)
-- **[SolidStart](https://start.solidjs.com/)** - Full-stack meta-framework
-- **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first styling
+### Frontend (Migrated to React)
+- **[Next.js 16](https://nextjs.org/)** - React meta-framework (App Router, RSC)
+- **[React 19](https://react.dev/)** - Latest React with concurrent features
+- **[Tailwind CSS v4](https://tailwindcss.com/)** - Utility-first styling
+- **[shadcn/ui](https://ui.shadcn.com/)** - Accessible component library (Radix UI)
+- **[TanStack Query v4](https://tanstack.com/query)** - Data fetching & caching
+- **[TanStack Form](https://tanstack.com/form)** - Framework-agnostic forms
 
-### Backend
-- **[tRPC](https://trpc.io/)** - End-to-end type-safe APIs (no code generation!)
+**Original:** SolidJS version preserved in `archive/solidjs-version/`
+
+### Backend (Unchanged - 100% Reused)
+- **[tRPC v10](https://trpc.io/)** - End-to-end type-safe APIs
 - **[Prisma](https://www.prisma.io/)** - Type-safe ORM
 - **[Zod](https://zod.dev/)** - Runtime validation & TypeScript types
 
 ### Infrastructure
-- **[pnpm](https://pnpm.io/)** - Fast, efficient package manager
-- **Monorepo** - Shared types across frontend/backend
-- **SQLite** (dev) → **PostgreSQL** (production)
-
-### Integrations
+- **[pnpm Workspaces](https://pnpm.io/)** - Monorepo package management
+- **SQLite** (development) → **PostgreSQL** (production target)
 - **[Twilio WhatsApp API](https://www.twilio.com/docs/whatsapp)** - Message delivery
-- **JWT** - Secure authentication
-- **bcrypt** - Password hashing
+- **JWT + bcrypt** - Authentication & security
 
-### Deployment
-- **Local Development** - Fully functional with SQLite
-- **Target Platforms** - Vercel (frontend) + Railway (worker)
-- **Status** - Deployment challenges documented (see [Technical Deep Dive](docs/reference/technical-deep-dive.md))
-- **Learnings** - Serverless constraints, Prisma bundling, platform-specific configs
+### Deployment (Target)
+- **Vercel** - Frontend + API routes
+- **Railway** - Background worker (cron jobs)
+- **Vercel Postgres** - Production database
 
 ---
 
@@ -96,25 +115,27 @@ See [docs/README.md](docs/README.md) for the complete documentation index.
 ```
 whatsapp-reminder-app/
 ├── apps/
-│   └── web/                 # SolidStart frontend application
-│       ├── src/
-│       │   ├── routes/      # File-based routing (pages)
-│       │   ├── components/  # Reusable UI components
-│       │   └── lib/         # tRPC client, utilities
-│       └── package.json
+│   ├── web/                 # Next.js 16 App (React 19)
+│   │   ├── app/             # App Router
+│   │   │   ├── (auth)/      # Login, register
+│   │   │   ├── (protected)/ # Dashboard (auth required)
+│   │   │   └── api/trpc/    # tRPC route handler
+│   │   ├── components/ui/   # shadcn/ui components
+│   │   └── lib/             # tRPC client, utils
+│   └── worker/              # Background jobs (UNCHANGED)
+├── archive/
+│   └── solidjs-version/     # Original SolidJS app (preserved)
 ├── packages/
-│   ├── db/                  # Database layer (Prisma)
-│   │   ├── prisma/
-│   │   │   └── schema.prisma
-│   │   └── package.json
-│   └── api/                 # Backend logic (tRPC routers)
-│       ├── src/
-│       │   ├── routers/     # Auth, reminders, etc.
-│       │   ├── services/    # WhatsApp, email, etc.
-│       │   └── context.ts   # tRPC context (auth, db)
-│       └── package.json
-├── pnpm-workspace.yaml      # Monorepo configuration
-└── package.json             # Root package scripts
+│   ├── api/                 # tRPC routers (UNCHANGED)
+│   │   ├── routers/         # Auth, reminders, etc.
+│   │   ├── services/        # WhatsApp integration
+│   │   └── lib/             # Auth helpers
+│   └── db/                  # Prisma schema (UNCHANGED)
+│       └── prisma/schema.prisma
+└── docs/                    # Project documentation
+    ├── context.md           # Session continuity
+    ├── plans/migration.md   # Migration roadmap
+    └── learnings/           # Detailed learnings
 ```
 
 ---
@@ -260,89 +281,19 @@ This project demonstrates proficiency in:
 
 ---
 
-## 🎓 What I Learned
+## 🎓 What I'm Learning
 
-This project was an intensive learning experience in modern full-stack development. Here are the key takeaways:
+This migration demonstrates:
+- **Framework-agnostic architecture** - 70% of codebase works in both SolidJS and React
+- **Type-safe full-stack development** - tRPC + Prisma + Zod end-to-end types
+- **Modern React patterns** - Server Components, App Router, hooks, TanStack ecosystem
+- **Reactivity concepts** - SolidJS signals → React hooks comparison (see [learnings doc](docs/learnings/migration-learnings.md#solidjs-signals-vs-react-hooks))
+- **Migration expertise** - Systematic approach to framework transitions
+- **Product thinking** - Legal, security, and scalability considerations for real-world apps
 
-### Technical Mastery
-
-**Type-Safe Development:**
-- tRPC's end-to-end type safety eliminates entire classes of bugs
-- Prisma's generated types provide compile-time database safety
-- Zod bridges runtime validation with TypeScript types
-- Monorepo enables sharing types across packages seamlessly
-
-**Authentication & Security:**
-- Implemented JWT-based stateless authentication
-- bcrypt password hashing with appropriate cost factors
-- Protected API routes with middleware patterns
-- Token-based authorization headers
-
-**Database Design:**
-- Relational modeling with one-to-many relationships
-- Index optimization for query performance
-- Migration strategies for schema evolution
-- Understanding ORM trade-offs (abstraction vs. performance)
-
-**Background Processing:**
-- Cron scheduling patterns and expressions
-- Idempotent job processing
-- Error isolation in batch operations
-- Retry strategies for failed jobs
-
-**Third-Party Integration:**
-- Twilio WhatsApp API integration
-- E.164 phone number format handling
-- API error handling and logging
-- Sandbox vs. production environments
-
-### Deployment Realities
-
-**Challenges Encountered:**
-- Prisma binary bundling on serverless platforms
-- SolidStart + Vercel configuration complexity
-- Monorepo deployment path management
-- Cron jobs vs. serverless function limitations
-
-**Lessons Applied:**
-- Read platform documentation thoroughly before choosing tech
-- Understand trade-offs between cutting-edge and battle-tested
-- Document failures as learning opportunities
-- Know when to pivot vs. persist
-
-### Professional Growth
-
-**Problem-Solving:**
-- Systematic debugging of complex deployment issues
-- Reading error messages and tracing root causes
-- Researching solutions across docs, GitHub issues, communities
-- Knowing when to ask for help
-
-**Technical Communication:**
-- Documenting architecture decisions with rationale
-- Writing clear commit messages following conventions
-- Creating comprehensive technical documentation
-- Honest assessment of challenges and solutions
-
-**Time Management:**
-- Breaking large projects into manageable tasks
-- Prioritizing MVP features over nice-to-haves
-- Recognizing when to stop fighting edge cases
-- Balancing learning new tech with shipping features
-
-### For Interviews
-
-This project demonstrates:
-- **Full-stack TypeScript proficiency** (tRPC, Prisma, SolidJS)
-- **Modern architecture patterns** (monorepo, type safety, DRY)
-- **Real-world integration skills** (Twilio WhatsApp API)
-- **Authentication implementation** (JWT, bcrypt, protected routes)
-- **Background job processing** (cron, async tasks, error handling)
-- **Honest technical assessment** (documenting challenges, not hiding failures)
-- **Continuous learning mindset** (new frameworks, deployment platforms)
-- **Professional communication** (clear documentation, commit history)
-
-**See [docs/reference/technical-deep-dive.md](docs/reference/technical-deep-dive.md) for in-depth explanations of every concept.**
+**Detailed technical learnings:** See [docs/learnings/migration-learnings.md](docs/learnings/migration-learnings.md)
+**Migration decisions:** See [docs/migration-journal.md](docs/migration-journal.md)
+**SolidJS deep dive:** See [docs/reference/technical-deep-dive.md](docs/reference/technical-deep-dive.md)
 
 ---
 

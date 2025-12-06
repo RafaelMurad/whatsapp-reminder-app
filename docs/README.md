@@ -12,8 +12,11 @@ All project documentation, organized and version-controlled.
 docs/
 ├── README.md                          # This file
 ├── context.md                         # Session continuity (read first!)
+├── migration-journal.md               # Day-by-day migration log
 ├── decisions/                         # Technology decisions & rationale
 │   └── tech-stack.md
+├── learnings/                         # Detailed concept explanations
+│   └── migration-learnings.md         # Technical deep dives
 ├── plans/                            # Migration plans & roadmaps
 │   ├── mvp-original.md               # Original SolidJS MVP plan
 │   └── migration.md                  # React migration roadmap
@@ -47,6 +50,17 @@ Contains:
 - What's working, what's in progress
 - Recent fixes and decisions
 - Where to resume work
+
+### [migration-journal.md](migration-journal.md)
+**Purpose:** Day-by-day migration log
+**Update:** After each migration day completion
+**Use:** Track decisions, learnings, blockers
+
+Contains:
+- What was accomplished each day
+- Technical decisions and rationale
+- Product considerations discovered
+- Blockers and resolutions
 
 ### [decisions/tech-stack.md](decisions/tech-stack.md)
 **Purpose:** Technology decisions & rationale
@@ -83,10 +97,23 @@ Contains:
 - Success criteria
 - Alternative paths if ahead/behind
 
+### [learnings/migration-learnings.md](learnings/migration-learnings.md)
+**Purpose:** Detailed technical concepts from migration
+**Update:** During migration, when learning new patterns
+**Use:** Reference for React patterns, interview prep
+
+Contains:
+- SolidJS Signals vs React Hooks comparison
+- Framework migration strategies
+- Next.js App Router architecture
+- Authentication patterns (JWT, cookies)
+- tRPC version compatibility lessons
+- Product considerations (legal, security, scalability)
+
 ### [reference/technical-deep-dive.md](reference/technical-deep-dive.md)
-**Purpose:** Deep technical explanations
-**Update:** When learning new concepts or for interviews
-**Use:** Interview preparation, concept review
+**Purpose:** Deep technical explanations (SolidJS version)
+**Update:** Historical reference
+**Use:** Interview preparation for SolidJS learnings
 
 Contains:
 - Authentication & Security (JWT, bcrypt)

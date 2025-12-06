@@ -11,21 +11,22 @@
 
 ## 📅 Daily Breakdown & Progress Tracking
 
-### Day 1: Clean Exit + Fresh Start ✅ (Target: 4-6 hours)
+### Day 1: Clean Exit + Fresh Start ✅ COMPLETE (Actual: ~4 hours with Copilot)
 
 #### Morning: SolidJS Cleanup
 - [x] Create TECHNOLOGY_DECISIONS.md (documenting migration rationale)
-- [ ] Update TECHNICAL_DEEP_DIVE.md with "Why I migrated to React" section
-- [ ] Archive SolidJS web app to `archive/solidjs-version/`
-- [ ] Git commit: "Archive SolidJS version, pivot to React for market alignment"
+- [x] Archive SolidJS web app to `archive/solidjs-version/`
+- [x] Git commit: "feat(web): archive SolidJS version and scaffold Next.js 16 app"
 
 #### Afternoon: Next.js Setup
-- [ ] Create Next.js 15 app (App Router, TypeScript, Tailwind)
-- [ ] Configure ESLint + Prettier + path aliases (@/)
-- [ ] Install shadcn/ui (button, form, card, dialog, toast)
-- [ ] Install TanStack Query + TanStack Form
-- [ ] Connect tRPC client to existing backend
-- [ ] Test one endpoint (auth.login)
+- [x] Create Next.js 16 app (App Router, TypeScript, Tailwind v4)
+- [x] Configure ESLint + Prettier + path aliases (@/)
+- [x] Install shadcn/ui (button, form, card, dialog, input, label, sonner)
+- [x] Install TanStack Query v4 + TanStack Form
+- [x] Connect tRPC v10 client to existing backend
+- [x] Test one endpoint (auth.login + register) - test user seeded successfully
+
+**Note:** Used tRPC v10 (not v11) for Next.js 16 compatibility. TanStack Query v4 for tRPC v10 peer deps.
 
 **Success Criteria:**
 - ✅ Next.js app running on localhost
@@ -189,17 +190,17 @@
 ## 🛠️ Technology Stack (Final)
 
 ### Frontend
-- **Next.js 15** (App Router, React Server Components)
-- **React 19** (latest)
+- **Next.js 16.0.3** (App Router, React Server Components)
+- **React 19.2.0** (latest)
 - **TypeScript** (strict mode)
-- **Tailwind CSS** (utility-first)
+- **Tailwind CSS v4** (utility-first, latest)
 - **shadcn/ui** (copy-paste components)
-- **TanStack Query** (data fetching/caching)
+- **TanStack Query v4.42.0** (data fetching/caching - for tRPC v10 compat)
 - **TanStack Form** (form management)
 - **Framer Motion** (animations, optional)
 
 ### Backend (Reused 100%)
-- **tRPC** (type-safe API)
+- **tRPC v10.45.2** (type-safe API - v10 for Next.js 16 stability)
 - **Prisma** (ORM)
 - **Zod** (validation)
 - **PostgreSQL** (production database)
